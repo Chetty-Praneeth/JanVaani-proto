@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+
 
 export default function IssueDetailsPage() {
   const { id } = useParams();
+  const navigate = useNavigate(); // <-- add this
   const [issue, setIssue] = useState(null);
   const [staffList, setStaffList] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState('');
+
 
   // Fetch issue
   useEffect(() => {
@@ -29,7 +32,7 @@ export default function IssueDetailsPage() {
   const fetchStaff = async () => {
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, name, area')
+      .select('id, name,')
       .eq('role', 'staff');
 
     console.log('Fetched staff:', data, error);
@@ -40,17 +43,27 @@ export default function IssueDetailsPage() {
   fetchStaff();
 }, []);
 
-
+    
   const handleAssign = async () => {
-    if (!selectedStaff) return alert('Select a staff member!');
-
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError) {
+        console.error("Error fetching user:", userError);
+        return;
+    }
+    console.log("Current user:", user);
+    
     const { error } = await supabase
-      .from('issues')
-      .update({ assigned_to: selectedStaff, status: 'Acknowledged' })
-      .eq('id', id);
+    .from('issues')
+    .update({ assigned_to: selectedStaff })
+    .eq('id', id);
 
-    if (error) console.error('Error updating issue:', error);
-    else alert('Staff assigned and status updated!');
+    if (error) {
+    console.error("Failed to assign staff:", error);
+  } else {
+    alert("Staff assigned successfully!");
+    navigate('/admin-dashboard'); // redirect after assignment
+  }
+
   };
 
   if (!issue) return <p>Loading issue...</p>;

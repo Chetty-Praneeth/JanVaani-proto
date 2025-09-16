@@ -6,39 +6,58 @@ import ReviewPage from './components/ReviewPage';
 import FeedbackPage from './components/FeedbackPage';
 import Navbar from './components/Navbar';
 import IssueDetailsPage from './components/IssueDetailsPage';
+import AdminDashboard from "./components/AdminDashboard";
+import StaffDashboard from "./components/StaffDashboard";
 
 function AppWrapper() {
   const [user, setUser] = useState(null);
-  const [welcomeShown, setWelcomeShown] = useState(false); // Track popup
+  const [role, setRole] = useState(null); // track role too
+  const [welcomeShown, setWelcomeShown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && !welcomeShown) {
-      alert(`Welcome ${user.email}, you are logged in`);
-      navigate('/new-issues');
-      setWelcomeShown(true); // ensure it only runs once
+    if (user && role && !welcomeShown) {
+      alert(`Welcome ${user.email}, you are logged in as ${role}`);
+
+      if (role === 'admin') {
+        navigate('/admin');
+      } else if (role === 'staff') {
+        navigate('/staff');
+      } else {
+        navigate('/'); // fallback for citizens/others
+      }
+
+      setWelcomeShown(true);
     }
-  }, [user, welcomeShown, navigate]);
+  }, [user, role, welcomeShown, navigate]);
 
   if (!user) {
-    return <Login onLogin={setUser} />;
+    // Pass role setter into Login so it can update role after login
+    return <Login onLogin={(u, r) => { setUser(u); setRole(r); }} />;
   }
 
   return (
     <>
-      <Navbar />
+      {/* Show navbar only for admins, hide for staff */}
+      {role === 'admin' && <Navbar />}
+
       <Routes>
         <Route path="/" element={<NewIssuesPage />} />
         <Route path="/new-issues" element={<NewIssuesPage />} />
         <Route path="/reviews" element={<ReviewPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/issues/:id" element={<IssueDetailsPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/staff" element={<StaffDashboard />} />
+        <Route path="/new-issues" element={<NewIssuesPage />} />
+        <Route path="/review" element={<ReviewPage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+
       </Routes>
     </>
   );
 }
 
-// Wrap AppWrapper in Router here
 export default function App() {
   return (
     <Router>
