@@ -8,6 +8,10 @@ import Navbar from './components/Navbar';
 import IssueDetailsPage from './components/IssueDetailsPage';
 import AdminDashboard from "./components/AdminDashboard";
 import StaffDashboard from "./components/StaffDashboard";
+import StaffIssueDetailsPage from './components/StaffIssueDetailsPage';
+import StaffResolved from './components/StaffResolved';
+
+
 
 function AppWrapper() {
   const [user, setUser] = useState(null);
@@ -52,6 +56,17 @@ function AppWrapper() {
         <Route path="/new-issues" element={<NewIssuesPage />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/staff" element={<StaffDashboard />} />
+        <Route path="/staff/issues/" element={<StaffIssueDetailsPage />} />
+        <Route path="/staff/resolved-issues" element={<StaffResolved />} />
+        <Route path="/staff/issues/:id" element={<StaffIssueDetailsPage />} />
+        <Route path="/staff/issues/:id" element={<StaffIssueDetailsPage />} />
+        
+
+
+        
+
+
 
       </Routes>
     </>
