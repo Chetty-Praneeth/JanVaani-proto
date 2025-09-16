@@ -10,6 +10,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import StaffDashboard from "./components/StaffDashboard";
 import StaffIssueDetailsPage from './components/StaffIssueDetailsPage';
 import StaffResolved from './components/StaffResolved';
+import StaffResolvedIssueDetails from './components/StaffResolvedIssueDetails';
 
 
 
@@ -53,20 +54,14 @@ function AppWrapper() {
         <Route path="/issues/:id" element={<IssueDetailsPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/staff" element={<StaffDashboard />} />
-        <Route path="/new-issues" element={<NewIssuesPage />} />
         <Route path="/review" element={<ReviewPage />} />
-        <Route path="/feedback" element={<FeedbackPage />} />
-        <Route path="/staff" element={<StaffDashboard />} />
         <Route path="/staff/issues/" element={<StaffIssueDetailsPage />} />
         <Route path="/staff/resolved-issues" element={<StaffResolved />} />
         <Route path="/staff/issues/:id" element={<StaffIssueDetailsPage />} />
         <Route path="/staff/issues/:id" element={<StaffIssueDetailsPage />} />
+        <Route path="/staff/resolved-issues/:id" element={<StaffResolvedIssueDetails />} />
+        <Route path="/login" element={<Login onLogin={(u, r) => { setUser(u); setRole(r); }} />} />
         
-
-
-        
-
-
 
       </Routes>
     </>

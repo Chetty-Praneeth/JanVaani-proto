@@ -1,7 +1,7 @@
 // src/components/AdminDashboard.js
 import React, { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   const [issues, setIssues] = useState([]);
@@ -58,29 +58,26 @@ export default function AdminDashboard() {
         <p>Resolved Issues: {stats.resolved}</p>
       </div>
 
-      {/* Navigation */}
+      {/* Buttons */}
       <div style={{ marginBottom: "20px" }}>
-        <Link to="/new-issues">
-          <button style={{ padding: "10px", cursor: "pointer" }}>
-            View New Issues
-          </button>
-        </Link>
-      </div>
-
-      <div style={{ marginBottom: "20px" }}>
-        <Link to="/review">
-          <button style={{ padding: "10px", cursor: "pointer" }}>
-            Review Resolved Issues
-          </button>
-        </Link>
-      </div>
-
-      <div style={{ marginBottom: "20px" }}>
-        <Link to="/feedback">
-          <button style={{ padding: "10px", cursor: "pointer" }}>
-            User Feedback
-          </button>
-        </Link>
+        <button
+          style={{ padding: "10px", cursor: "pointer", marginRight: "10px" }}
+          onClick={() => navigate("/new-issues")}
+        >
+          View New Issues
+        </button>
+        <button
+          style={{ padding: "10px", cursor: "pointer", marginRight: "10px" }}
+          onClick={() => navigate("/review")}
+        >
+          Review Resolved Issues
+        </button>
+        <button
+          style={{ padding: "10px", cursor: "pointer" }}
+          onClick={() => navigate("/feedback")}
+        >
+          User Feedback
+        </button>
       </div>
 
       {/* List all issues */}
