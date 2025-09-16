@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
-
 export default function IssueDetailsPage() {
   const { id } = useParams();
-  const navigate = useNavigate(); // <-- add this
+  const navigate = useNavigate();
   const [issue, setIssue] = useState(null);
-  const [staffList, setStaffList] = useState([]);
-  const [selectedStaff, setSelectedStaff] = useState('');
-
+  const [staff, setStaff] = useState(null); // single staff
+  const [selectedStaff, setSelectedStaff] = useState(''); // start empty
 
   // Fetch issue
   useEffect(() => {
@@ -27,46 +25,39 @@ export default function IssueDetailsPage() {
     fetchIssue();
   }, [id]);
 
-  // Fetch all staff from profiles table
+  // Fetch the single staff
   useEffect(() => {
-  const fetchStaff = async () => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id, name,')
-      .eq('role', 'staff');
+    const fetchStaff = async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, name')
+        .eq('role', 'staff')
+        .limit(1)
+        .single();
 
-    console.log('Fetched staff:', data, error);
-    if (error) console.error('Error fetching staff:', error);
-    else setStaffList(data);
-  };
+      if (error) console.error('Error fetching staff:', error);
+      else setStaff(data);
+    };
 
-  fetchStaff();
-}, []);
+    fetchStaff();
+  }, []);
 
-    
   const handleAssign = async () => {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError) {
-        console.error("Error fetching user:", userError);
-        return;
-    }
-    console.log("Current user:", user);
-    
+    if (!selectedStaff) return alert("Please select a staff member");
+
     const { error } = await supabase
-    .from('issues')
-    .update({ assigned_to: selectedStaff })
-    .eq('id', id);
+      .from('issues')
+      .update({ assigned_to: selectedStaff })
+      .eq('id', id);
 
-    if (error) {
-    console.error("Failed to assign staff:", error);
-  } else {
-    alert("Staff assigned successfully!");
-    navigate('/admin-dashboard'); // redirect after assignment
-  }
-
+    if (error) console.error('Failed to assign staff:', error);
+    else {
+      alert('Staff assigned successfully!');
+      navigate('/admin'); // redirect back to admin dashboard
+    }
   };
 
-  if (!issue) return <p>Loading issue...</p>;
+  if (!issue || !staff) return <p>Loading issue...</p>;
 
   return (
     <div style={{ padding: '20px' }}>
@@ -94,13 +85,9 @@ export default function IssueDetailsPage() {
           style={{ marginRight: '10px' }}
         >
           <option value="">Select Staff</option>
-          {staffList.map((staff) => (
-            <option key={staff.id} value={staff.id}>
-              {staff.name} ({staff.area})
-            </option>
-          ))}
+          <option value={staff.id}>{staff.name}</option>
         </select>
-        <button onClick={handleAssign}>Assign & Acknowledge</button>
+        <button onClick={handleAssign}>Assign</button>
       </div>
     </div>
   );
