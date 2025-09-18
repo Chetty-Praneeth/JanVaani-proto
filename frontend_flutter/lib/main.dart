@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+
 // Core
 import 'core/app_colors.dart';
 import 'core/app_routes.dart';
 
 // Providers
 import 'providers/auth_provider.dart';
+
+//pages
+import 'pages/splash_page.dart'; // <-- import your splash page
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +39,8 @@ class CivicApp extends StatelessWidget {
           primaryColor: AppColors.primary,
           scaffoldBackgroundColor: AppColors.background,
         ),
-        initialRoute: AppRoutes.login,
-        routes: AppRoutes.routes, // ✅ Use centralized routes map
+        initialRoute: AppRoutes.splash,
+        routes: AppRoutes.routes, 
         onGenerateRoute: AppRoutes.onGenerateRoute, // ✅ For routes that need arguments
       ),
     );
