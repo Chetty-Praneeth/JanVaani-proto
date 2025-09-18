@@ -102,6 +102,9 @@ const handleSubmit = async () => {
       <p><strong>Description:</strong> {issue.description}</p>
       <p><strong>Location:</strong> {issue.location}</p>
       <p><strong>Status:</strong> {issue.status}</p>
+      <p><strong>Category:</strong> {issue.category || 'Not set'}</p>
+      <p><strong>Additional Information:</strong> {issue.additional_information || 'None'}</p>
+
 
       <div style={{ marginTop: 20 }}>
         <label>
