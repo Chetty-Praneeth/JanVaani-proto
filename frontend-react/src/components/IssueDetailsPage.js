@@ -72,8 +72,11 @@ export default function IssueDetailsPage() {
 
       <p><strong>Description:</strong> {issue.description}</p>
       <p><strong>Location:</strong> {issue.location}</p>
+      <p><strong>Category:</strong> {issue.category || 'Not set'}</p>
+      <p><strong>Additional Information:</strong> {issue.additional_information || 'None'}</p>
       <p><strong>Status:</strong> {issue.status}</p>
       <p><strong>Created by:</strong> {issue.created_by}</p>
+
 
       <div style={{ marginTop: '20px' }}>
         <label>
