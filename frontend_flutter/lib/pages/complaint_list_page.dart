@@ -15,43 +15,38 @@ class _ComplaintListPageState extends State<ComplaintListPage> {
   String? selectedStatus;
 
   final List<IssueModel> dummyIssues = [
-    IssueModel(
-      userId: "dummyUser123",
-      id: "1",
-      title: "Large pothole near Chinnacoonoor",
-      description: "Bus stop area",
-      category: "Roads",
-      imageUrl: null,
-      latitude: 23.6,
-      longitude: 85.2,
-      status: "In Progress",
-      createdAt: DateTime.now(),
-    ),
-    IssueModel(
-      userId: "dummyUser123",
-      id: "2",
-      title: "Streetlight not working at Kailudai",
-      description: "Park road",
-      category: "Lighting",
-      imageUrl: null,
-      latitude: 23.61,
-      longitude: 85.21,
-      status: "Pending",
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    IssueModel(
-      userId: "dummyUser123",
-      id: "3",
-      title: "Garbage overflow at Cotty Market",
-      description: "Near shop line",
-      category: "Garbage",
-      imageUrl: null,
-      latitude: 23.62,
-      longitude: 85.23,
-      status: "Resolved",
-      createdAt: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-  ];
+  IssueModel(
+    id: 1,
+    title: "Large pothole near Chinnacoonoor",
+    description: "Bus stop area",
+    category: "Roads",
+    status: "In Progress",
+    createdBy: "dummyUser123",
+    location: "Chinnacoonoor",
+    createdAt: DateTime.now(),
+  ),
+  IssueModel(
+    id: 2,
+    title: "Streetlight not working at Kailudai",
+    description: "Park road",
+    category: "Lighting",
+    status: "Pending",
+    createdBy: "dummyUser123",
+    location: "Kailudai",
+    createdAt: DateTime.now().subtract(const Duration(days: 1)),
+  ),
+  IssueModel(
+    id: 3,
+    title: "Garbage overflow at Cotty Market",
+    description: "Near shop line",
+    category: "Garbage",
+    status: "Resolved",
+    createdBy: "dummyUser123",
+    location: "Cotty Market",
+    createdAt: DateTime.now().subtract(const Duration(days: 3)),
+  ),
+];
+
 
   @override
   Widget build(BuildContext context) {

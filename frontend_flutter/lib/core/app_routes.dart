@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../pages/complaint_list_page.dart';
+
 
 // NOTE: make sure these files exist in lib/pages/ with matching class names.
 import '../pages/splash_page.dart';
@@ -34,7 +36,7 @@ class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
     splash: (_) => const SplashPage(),
     login: (_) => const LoginPage(),
-    signup: (_) => const SignupPage(),
+    //signup: (_) => const SignupPage(),
     home: (_) => const HomePage(),
     reportIssue: (_) => const ReportIssuePage(),
     submitted: (_) => const SubmittedPage(),

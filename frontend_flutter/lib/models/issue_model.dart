@@ -1,16 +1,16 @@
-// lib/models/issue_model.dart
-
 class IssueModel {
-  final String id;
+  final int id;
   final String title;
   final String description;
-  final String category; // e.g. Roads, Water, Electricity
-  final String status; // e.g. Pending, Assigned, Resolved, Verified
-  final String userId;
-  final double? latitude;
-  final double? longitude;
+  final String category;
+  final String status;
+  final String createdBy; 
+  final String? assignedTo;
   final String? imageUrl;
+  final String location;
+  final String? additionalInformation;
   final DateTime createdAt;
+  final DateTime? updatedAt;
 
   IssueModel({
     required this.id,
@@ -18,35 +18,32 @@ class IssueModel {
     required this.description,
     required this.category,
     required this.status,
-    required this.userId,
-    this.latitude,
-    this.longitude,
+    required this.createdBy,
+    this.assignedTo,
     this.imageUrl,
+    required this.location,
+    this.additionalInformation,
     required this.createdAt,
+    this.updatedAt,
   });
 
-  /// Convert JSON → IssueModel
   factory IssueModel.fromJson(Map<String, dynamic> json) {
     return IssueModel(
-      id: json['id'] ?? '',
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      category: json['category'] ?? '',
-      // Default to "Pending" if nothing is provided
-      status: json['status'] ?? 'Pending',
-      userId: json['user_id'] ?? '',
-      latitude: (json['latitude'] != null)
-          ? (json['latitude'] as num).toDouble()
-          : null,
-      longitude: (json['longitude'] != null)
-          ? (json['longitude'] as num).toDouble()
-          : null,
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      category: json['category'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      assignedTo: json['assigned_to'],
       imageUrl: json['image_url'],
-      createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
+      location: json['location'] ?? '',
+      additionalInformation: json['additional_information'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
-  /// Convert IssueModel → JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -54,11 +51,13 @@ class IssueModel {
       'description': description,
       'category': category,
       'status': status,
-      'user_id': userId,
-      'latitude': latitude,
-      'longitude': longitude,
+      'created_by': createdBy,
+      'assigned_to': assignedTo,
       'image_url': imageUrl,
+      'location': location,
+      'additional_information': additionalInformation,
       'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 }

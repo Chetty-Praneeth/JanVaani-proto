@@ -3,13 +3,17 @@ class UserModel {
   final String name;
   final String email;
   final String phone;
-  final String? profileImage; // optional
+  final String role;
+  final String? area;
+  final String? profileImage;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
     required this.phone,
+    required this.role,
+    this.area,
     this.profileImage,
   });
 
@@ -19,6 +23,8 @@ class UserModel {
       name: json['name'] ?? '',
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
+      role: json['role'] ?? 'citizen',
+      area: json['area'],
       profileImage: json['profile_image'],
     );
   }
@@ -29,6 +35,8 @@ class UserModel {
       'name': name,
       'email': email,
       'phone': phone,
+      'role': role,
+      'area': area,
       'profile_image': profileImage,
     };
   }

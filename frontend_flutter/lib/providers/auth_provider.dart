@@ -24,21 +24,23 @@ class AuthProvider extends ChangeNotifier {
     return _user != null;
   }
 
-  Future<bool> signup(String name, String email, String phone, String password) async {
-    _isLoading = true;
+  Future<void> logout() async {
+    await _apiService.logout();
+    _user = null;
     notifyListeners();
-
-    final result = await _apiService.signup(name, email, phone, password);
-    _user = result;
-
-    _isLoading = false;
-    notifyListeners();
-
-    return _user != null;
   }
 
-  void logout() {
-    _user = null;
+  void checkAuth() {
+    final supabaseUser = _apiService.currentUser();
+    if (supabaseUser != null) {
+      _user = UserModel(
+        id: supabaseUser.id,
+        name: '',
+        email: supabaseUser.email ?? '',
+        phone: '',
+        role: 'citizen',
+      );
+    }
     notifyListeners();
   }
 }
